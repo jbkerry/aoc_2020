@@ -14,21 +14,17 @@ impl Slope {
 
 pub fn run(lines: Vec<String>, part: usize) -> Result<(), &'static str> {
     let matrix: Vec<Vec<_>> = lines.iter().map(|x| x.chars().collect()).collect();
-    let slope = Slope::new(3, 1);
 
-    let mut num_of_trees = number_of_trees_hit(&matrix, slope);
-    if part == 1 {
-        println!("number of trees hit = {}", num_of_trees);
-        return Ok(())
-    }
+    let num_of_trees = if part == 1 {
+        let slope = Slope::new(3, 1);
+        number_of_trees_hit(&matrix, slope)
+    } else {
+        let slope_coords = vec![(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)];
+        multiple_slopes_trees_hit(&matrix, slope_coords)
+    };
 
-    let slopes = [(1, 1), (5, 1), (7, 1), (1, 2)];
-    for slope_coord in slopes.iter() {
-        let slope = Slope::new(slope_coord.0, slope_coord.1);
-        num_of_trees *= number_of_trees_hit(&matrix, slope);
-    }
+    println!("number of trees hit = {}", num_of_trees);
 
-    println!("total number from multiplying = {}", num_of_trees);
     Ok(())
 }
 
@@ -50,6 +46,12 @@ fn number_of_trees_hit(matrix: &Vec<Vec<char>>, slope: Slope) -> u64 {
     num_of_trees
 }
 
+fn multiple_slopes_trees_hit(matrix: &Vec<Vec<char>>, slope_coords: Vec<(usize, usize)>) -> u64 {
+    let slopes = slope_coords.iter()
+        .map(|x| Slope::new(x.0, x.1));
+    slopes.map(|x| number_of_trees_hit(&matrix, x)).product()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -65,5 +67,18 @@ mod tests {
         ];
         let slope = Slope::new(2, 1);
         assert_eq!(3, number_of_trees_hit(&matrix, slope));
+    }
+
+    #[test]
+    fn multiple_slopes() {
+        let matrix: Vec<Vec<char>> = vec![
+            "..##.#.".chars().collect(),
+            ".###.##".chars().collect(),
+            "..#..#.".chars().collect(),
+            "..#..##".chars().collect(),
+            ".##.#..".chars().collect(),
+        ];
+        let slope_coords = vec![(3, 1), (2, 1), (2, 1)];
+        assert_eq!(18, multiple_slopes_trees_hit(&matrix, slope_coords));
     }
 }
