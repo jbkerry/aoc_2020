@@ -2,9 +2,8 @@ use std::env;
 use std::error::Error;
 use std::fs;
 
-mod day1;
-mod day2;
-mod day3;
+mod days;
+use crate::days::*;
 
 pub struct RunConfig {
     pub day: usize,
