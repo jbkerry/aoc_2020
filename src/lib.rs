@@ -35,10 +35,10 @@ impl RunConfig {
 }
 
 
-pub fn get_lines_from_file(filepath: &str) -> Result<Vec<String>, Box<dyn Error>> {
+pub fn get_lines_from_file(filepath: &str, line_break: &str) -> Result<Vec<String>, Box<dyn Error>> {
     let contents = fs::read_to_string(filepath)?;
     let lines = contents
-        .lines()
+        .split(line_break)
         .map(|l| l.to_string())
         .collect();
 
@@ -50,6 +50,7 @@ pub fn run(lines:Vec<String>, day: usize, part: usize) -> Result<(), &'static st
         1 => day1::run,
         2 => day2::run,
         3 => day3::run,
+        4 => day4::run,
         _ => return Err("No function defined for this day"),
     };
     func(lines, part)?;
