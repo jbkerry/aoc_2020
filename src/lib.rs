@@ -1,9 +1,39 @@
+use std::env;
 use std::error::Error;
 use std::fs;
 
 mod day1;
 mod day2;
 mod day3;
+
+pub struct RunConfig {
+    pub day: usize,
+    pub part: usize,
+    pub filepath: String,
+}
+
+impl RunConfig {
+    pub fn new(mut args: env::Args) -> Result<RunConfig, &'static str> {
+        args.next();
+        let day: usize = match args.next() {
+            Some(arg) => arg.parse().unwrap(),
+            None => return Err("Didn't get a day number"),
+        };
+
+        let part: usize = match args.next() {
+            Some(arg) => arg.parse().unwrap(),
+            None => return Err("Didn't get a part number"),
+        };
+
+        let filepath = format!("./day{}.txt", day);
+
+        Ok(RunConfig {
+            day,
+            part,
+            filepath,
+        })
+    }
+}
 
 
 pub fn get_lines_from_file(filepath: &str) -> Result<Vec<String>, Box<dyn Error>> {
@@ -16,7 +46,7 @@ pub fn get_lines_from_file(filepath: &str) -> Result<Vec<String>, Box<dyn Error>
     Ok(lines)
 }
 
-pub fn run(lines:Vec<String>, day: i8, part: usize) -> Result<(), &'static str> {
+pub fn run(lines:Vec<String>, day: usize, part: usize) -> Result<(), &'static str> {
     let func = match day {
         1 => day1::run,
         2 => day2::run,

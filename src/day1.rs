@@ -6,7 +6,7 @@ pub fn run(lines: Vec<String>, part: usize) -> Result<(), &'static str> {
         Some(r) => r.iter().product(),
         None => return Err("Didn't get a file name"),
     };
-    println!("result = {}", result);
+    println!("product of numbers adding to 2020 = {}", result);
 
     Ok(())
 }

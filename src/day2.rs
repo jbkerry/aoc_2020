@@ -40,7 +40,7 @@ pub fn run(lines: Vec<String>, part: usize) -> Result<(), &'static str> {
         }
     }
 
-    println!("{}", valid);
+    println!("number of valid passwords = {}", valid);
 
     Ok(())
 }
