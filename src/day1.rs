@@ -2,7 +2,7 @@ use itertools::Itertools;
 
 pub fn run(lines: Vec<String>, part: usize) -> Result<(), &'static str> {
     let group_adding_to_values = find_group(lines, part + 1, 2020);
-    let result: i32 = match group_adding_to_values {
+    let result: u32 = match group_adding_to_values {
         Some(r) => r.iter().product(),
         None => return Err("Didn't get a file name"),
     };
@@ -11,14 +11,14 @@ pub fn run(lines: Vec<String>, part: usize) -> Result<(), &'static str> {
     Ok(())
 }
 
-fn find_group(lines: Vec<String>, combs: usize, total: i32) -> Option<Vec<i32>> {
+fn find_group(lines: Vec<String>, combs: usize, total: u32) -> Option<Vec<u32>> {
     let lines_as_nums = lines
         .iter()
         .map(|x| x.parse().expect(&format!("{} could not be parsed to int", x)));
 
     lines_as_nums
         .combinations(combs)
-        .filter(|pair| pair.iter().sum::<i32>() == total)
+        .filter(|pair| pair.iter().sum::<u32>() == total)
         .next()
 }
 
