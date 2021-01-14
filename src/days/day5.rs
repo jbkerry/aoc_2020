@@ -1,3 +1,4 @@
+use std::collections::HashSet;
 
 struct Seat {
     row: usize,
@@ -28,8 +29,15 @@ pub fn run(lines: Vec<String>, part: usize) -> Result<(), &'static str> {
     let ids = seats_as_binary
         .map(|x| Seat::new(&x.0, &x.1).calculate_id());
 
+    let mut claimed_seats: Vec<usize> = ids.collect();
+    let (min_seat_id, max_seat_id) = get_min_max_ids(&mut claimed_seats);
+
     if part == 1 {
-        println!("Highest ID = {}", ids.max().unwrap());
+        println!("Highest ID = {}", max_seat_id);
+    } else {
+        let claimed_seats: HashSet<_> = claimed_seats.into_iter().collect();
+        let all_seats: HashSet<usize> = (min_seat_id..max_seat_id).collect();
+        println!("My seat ID = {:?}", all_seats.difference(&claimed_seats));
     }
 
     Ok(())
@@ -41,6 +49,14 @@ fn convert_seat_to_binary(seat: &str) -> (String, String) {
         .replace(&['B', 'R'][..], "1");
     let (row, column) = seat.split_at(7);
     (row.to_string(), column.to_string())
+}
+
+fn get_min_max_ids(seat_ids: &mut [usize]) -> (usize, usize) {
+    seat_ids.sort();
+    let min_seat_id = seat_ids.first().unwrap();
+    let max_seat_id = seat_ids.last().unwrap();
+
+    (min_seat_id.to_owned(), max_seat_id.to_owned())
 }
 
 #[cfg(test)]
@@ -64,5 +80,12 @@ mod test {
     fn calculates_id() {
         let seat = Seat::new("1100110", "100");
         assert_eq!(820, seat.calculate_id());
+    }
+
+    #[test]
+    fn gets_min_and_max_ids() {
+        let mut seat_ids = [4, 1, 6, 8, 2, 11, 7];
+        let min_max = get_min_max_ids(&mut seat_ids);
+        assert_eq!((1, 11), min_max);
     }
 }
