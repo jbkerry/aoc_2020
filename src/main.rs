@@ -11,7 +11,7 @@ fn main() {
         });
 
     let line_break = match config.day {
-        4 => "\n\n",
+        4 | 6 => "\n\n",
         _ => "\n",
     };
     let lines = aoc_2020::get_lines_from_file(&config.filepath, line_break)
