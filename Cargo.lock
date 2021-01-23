@@ -15,6 +15,7 @@ version = "0.1.0"
 dependencies = [
  "itertools",
  "regex",
+ "trees",
 ]
 
 [[package]]
@@ -22,6 +23,12 @@ name = "either"
 version = "1.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e78d4f1cc4ae33bbfc157ed5d5a5ef3bc29227303d595861deb238fcec4e9457"
+
+[[package]]
+name = "indexed"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "64d9ca77b99ee70a9251b23d3a5167336665b91addfdd52381cf13d3693427e6"
 
 [[package]]
 name = "itertools"
@@ -69,4 +76,13 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bb9bc092d0d51e76b2b19d9d85534ffc9ec2db959a2523cdae0697e2972cd447"
 dependencies = [
  "lazy_static",
+]
+
+[[package]]
+name = "trees"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1fcd12c7f693050b0724c2b7d678c62ae8370554b33267702d5adf4b4fa116fb"
+dependencies = [
+ "indexed",
 ]
